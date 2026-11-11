@@ -4,7 +4,7 @@ An in-progress actuarial pricing project using Python and pandas to analyze clai
 
 ## Initial finding
 
-The average recorded claim amount for drivers aged 18–24 was 192% higher than for drivers aged 25–34. After capping claim amounts at the same 99th-percentile threshold (16,451.22) across all age groups, the gap fell to 14%. This shows how much large claims influenced the original comparison. Claim amount records were less complete for some age groups, which still limits the comparison.
+The average recorded claim amount for drivers aged 18–24 was 192% higher than for drivers aged 25–34. After applying the same cap to individual claim amounts in both groups, the difference fell to 14%. The cap was 16,451.22, the 99th percentile of all matched claim amounts. The drop shows how strongly large claims influenced the original comparison. Claim amount records were less complete for some age groups, which limits both comparisons.
 
 ## Data and method
 
