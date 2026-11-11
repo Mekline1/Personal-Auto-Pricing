@@ -29,7 +29,9 @@ def main():
     claims = load_table("severity", 20649149, "freMTPL2sev")
     assert policies.IDpol.is_unique and policies.Exposure.gt(0).all()
     assert claims.ClaimAmount.notna().all()
-    matched = claims[claims.IDpol.isin(policies.IDpol)]
+    matched = claims[claims.IDpol.isin(policies.IDpol)].copy()
+    cap = matched["ClaimAmount"].quantile(0.99)
+    matched["CappedClaimAmount"] = matched["ClaimAmount"].clip(upper=cap)
     totals = matched.groupby("IDpol").ClaimAmount.agg(
         matched_claims="size", recorded_losses="sum"
     )
@@ -56,8 +58,35 @@ def main():
     print(f"Unmatched claim amount rows: {len(claims) - len(matched):,}")
     print(portfolio.matched_claims.sub(portfolio.ClaimNb).pipe(
         lambda difference: {"fewer": int(difference.lt(0).sum()), "more": int(difference.gt(0).sum())}
+    ))    
+    capped_by_policy = matched.groupby("IDpol")["CappedClaimAmount"].sum()
+    portfolio["capped_losses"] = portfolio["IDpol"].map(capped_by_policy).fillna(0)
+    capped_by_age = portfolio.groupby("age", observed=True)["capped_losses"].sum()
+
+    summary["capped_average_severity"] = capped_by_age / summary["matched_claims"]
+    frequency_table = summary.rename(columns={
+        "policies": "Policies",
+        "claims_per_100_years": "Claims per 100 insured years",
+        "matched_to_reported_pct": "Claim amounts matched (%)",
+    })[["Policies", "Claims per 100 insured years", "Claim amounts matched (%)"]]
+
+    severity_table = summary.rename(columns={
+        "average_recorded_severity": "Original average",
+        "capped_average_severity": "Capped average",
+        "recorded_loss_per_year": "Recorded loss per insured year",
+    })[["Original average", "Capped average", "Recorded loss per insured year"]]
+
+    print("\nREPORTED CLAIM FREQUENCY BY DRIVER AGE")
+    print(frequency_table.rename_axis("Driver age").to_string(formatters={
+        "Policies": "{:,.0f}".format,
+        "Claims per 100 insured years": "{:,.2f}".format,
+        "Claim amounts matched (%)": "{:.1f}".format,
+    }))
+
+    print(f"\nRECORDED CLAIM SEVERITY BY DRIVER AGE (cap: {cap:,.2f})")
+    print(severity_table.rename_axis("Driver age").to_string(
+        float_format="{:,.2f}".format
     ))
-    print(summary.round(2).to_string())
 
 
 if __name__ == "__main__":
