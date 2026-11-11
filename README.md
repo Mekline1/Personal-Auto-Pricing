@@ -4,7 +4,7 @@ An in-progress actuarial pricing project using Python and pandas to analyze clai
 
 ## Initial finding
 
-Drivers aged 18–24 had **18.93 reported claims per 100 insured years**, compared with **9.90** for drivers aged 25–34. These are observed rates before adjusting for other policy characteristics.
+The average recorded claim amount for drivers aged 18–24 was 192% higher than for drivers aged 25–34. After capping claim amounts at the same 99th-percentile threshold (16,451.22) across all age groups, the gap fell to 14%. This shows how much large claims influenced the original comparison. Claim amount records were less complete for some age groups, which still limits the comparison.
 
 ## Data and method
 
