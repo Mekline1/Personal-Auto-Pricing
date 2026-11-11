@@ -73,8 +73,8 @@ def main():
     severity_table = summary.rename(columns={
         "average_recorded_severity": "Original average",
         "capped_average_severity": "Capped average",
-        "recorded_loss_per_year": "Recorded loss per insured year",
-    })[["Original average", "Capped average", "Recorded loss per insured year"]]
+        "recorded_loss_per_year": "Uncapped recorded loss per insured year",
+    })[["Original average", "Capped average", "Uncapped recorded loss per insured year"]]
 
     print("\nREPORTED CLAIM FREQUENCY BY DRIVER AGE")
     print(frequency_table.rename_axis("Driver age").to_string(formatters={
