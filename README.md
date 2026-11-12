@@ -27,4 +27,4 @@ python personal_auto_pricing.py
 python frequency_model.py
 ```
 
-The script downloads the data on the first run and prints the results by driver age group. On Windows, use `py` in place of `python` if that’s how you launch Python.
+The scripts download and cache the data as needed. personal_auto_pricing.py prints the age-group summaries, and frequency_model.py prints the adjusted claim rate ratio and held-out model results.
