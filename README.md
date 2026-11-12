@@ -18,6 +18,7 @@ Drivers aged 18–24 had 1.91 times the observed claim frequency of drivers aged
 
 On the 20% of policies held out for testing, mean Poisson deviance fell from 0.3314 for the portfolio-wide baseline to 0.3214 for the model, a 3.0% reduction.
 
+[Download the Excel analysis workbook](personal_auto_pricing_analysis.xlsx)
 ## Run the analysis
 
 ```bash
