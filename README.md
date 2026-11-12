@@ -12,11 +12,18 @@ The analysis uses the [policy and exposure table](https://www.openml.org/d/41214
 
 Frequency uses reported claim counts. Severity and loss cost use recorded claim amounts. Across age groups, the number of matched claim amount records ranged from 63% to 85% of reported claim counts, which limits comparisons of severity and loss cost.
 
+## Claim Frequency Model
+
+Drivers aged 18–24 had 1.91 times the observed claim frequency of drivers aged 25–34. After adjusting for vehicle age, region, and bonus-malus score using Poisson regression, the estimated rate ratio was 1.26.
+
+On the 20% of policies held out for testing, mean Poisson deviance fell from 0.3314 for the portfolio-wide baseline to 0.3214 for the model, a 3.0% reduction.
+
 ## Run the analysis
 
 ```bash
-python -m pip install pandas
+python -m pip install pandas scikit-learn
 python personal_auto_pricing.py
+python frequency_model.py
 ```
 
 The script downloads the data on the first run and prints the results by driver age group. On Windows, use `py` in place of `python` if that’s how you launch Python.
